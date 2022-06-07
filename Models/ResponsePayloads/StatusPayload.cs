@@ -13,5 +13,5 @@ public class StatusPayload
     /// <summary>
     /// Gets or sets description.
     /// </summary>
-    public string? Description { get; init; }
+    public string Description { get; init; } = default!;
 }
