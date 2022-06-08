@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
+const string corsPolicy = "CORS Policy";
+
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 
@@ -53,6 +55,16 @@ builder.Services.AddSwaggerGen(setup => {
     });
 });
 builder.Services.ConfigureOptions<ConfigureSwaggerOptions>();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: corsPolicy, builder =>
+    {
+        builder.AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
 
 builder.Services.AddControllers();
 
@@ -105,6 +117,8 @@ app.UseSwaggerUI(options =>
 app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseHttpsRedirection();
+
+app.UseCors(corsPolicy);
 
 app.UseAuthentication();
 app.UseAuthorization();
