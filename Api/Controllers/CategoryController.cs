@@ -1,4 +1,5 @@
 ﻿using Contracts.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models.RequestPayloads;
 using Models.ResponsePayloads;
@@ -33,8 +34,20 @@ public class CategoryController : ControllerBase
     /// </returns>
     [HttpGet]
     [MapToApiVersion("1.0")]
-    [MapToApiVersion("2.0")]
     public async Task<IEnumerable<CategoryResponsePayload>> GetAllApi1()
+    {
+        return await _categoryService.GetAll();
+    }
+
+    /// <summary>
+    /// Gets all categories.
+    /// </summary>
+    /// <returns>
+    /// <see cref="Task{IEnumerable{CategoryResponsePayload}}"/>.
+    /// </returns>
+    [HttpGet, Authorize]
+    [MapToApiVersion("2.0")]
+    public async Task<IEnumerable<CategoryResponsePayload>> GetAllApi2()
     {
         return await _categoryService.GetAll();
     }
@@ -46,8 +59,19 @@ public class CategoryController : ControllerBase
     /// <returns><see cref="Task{CategoryResponsePayload}"/>.</returns>
     [HttpGet("{id}")]
     [MapToApiVersion("1.0")]
-    [MapToApiVersion("2.0")]
     public async Task<CategoryResponsePayload> GetByIdApi1([FromRoute] int id)
+    {
+        return await _categoryService.GetById(id);
+    }
+
+    /// <summary>
+    /// Gets category by id.
+    /// </summary>
+    /// <param name="id">Id.</param>
+    /// <returns><see cref="Task{CategoryResponsePayload}"/>.</returns>
+    [HttpGet("{id}"), Authorize]
+    [MapToApiVersion("2.0")]
+    public async Task<CategoryResponsePayload> GetByIdApi2([FromRoute] int id)
     {
         return await _categoryService.GetById(id);
     }
@@ -61,8 +85,22 @@ public class CategoryController : ControllerBase
     /// <returns><see cref="Task"/>.</returns>
     [HttpPost]
     [MapToApiVersion("1.0")]
-    [MapToApiVersion("2.0")]
     public async Task AddApi1(
+        [FromBody] CategoryRequestPayload categoryRequestPayload)
+    {
+        await _categoryService.Add(categoryRequestPayload);
+    }
+
+    /// <summary>
+    /// Adds a new category.
+    /// </summary>
+    /// <param name="categoryRequestPayload">
+    /// <see cref="CategoryRequestPayload"/>.
+    /// </param>
+    /// <returns><see cref="Task"/>.</returns>
+    [HttpPost]
+    [MapToApiVersion("2.0"), Authorize]
+    public async Task AddApi2(
         [FromBody] CategoryRequestPayload categoryRequestPayload)
     {
         await _categoryService.Add(categoryRequestPayload);
@@ -78,8 +116,24 @@ public class CategoryController : ControllerBase
     /// <returns><see cref="Task"/>.</returns>
     [HttpPut("{id}")]
     [MapToApiVersion("1.0")]
-    [MapToApiVersion("2.0")]
     public async Task UpdateApi1(
+        [FromRoute] int id,
+        [FromBody] CategoryRequestPayload categoryRequestPayload)
+    {
+        await _categoryService.Update(id, categoryRequestPayload);
+    }
+
+    /// <summary>
+    /// Updates a category.
+    /// </summary>
+    /// <param name="id">Id.</param>
+    /// <param name="categoryRequestPayload">
+    /// <see cref="CategoryRequestPayload"/>.
+    /// </param>
+    /// <returns><see cref="Task"/>.</returns>
+    [HttpPut("{id}")]
+    [MapToApiVersion("2.0"), Authorize]
+    public async Task UpdateApi2(
         [FromRoute] int id,
         [FromBody] CategoryRequestPayload categoryRequestPayload)
     {
@@ -93,8 +147,19 @@ public class CategoryController : ControllerBase
     /// <returns><see cref="Task"/>.</returns>
     [HttpDelete("{id}")]
     [MapToApiVersion("1.0")]
-    [MapToApiVersion("2.0")]
     public async Task DeleteApi1([FromRoute] int id)
+    {
+        await _categoryService.Delete(id);
+    }
+
+    /// <summary>
+    /// Deletes a category.
+    /// </summary>
+    /// <param name="id">Id.</param>
+    /// <returns><see cref="Task"/>.</returns>
+    [HttpDelete("{id}"), Authorize]
+    [MapToApiVersion("2.0")]
+    public async Task DeleteApi2([FromRoute] int id)
     {
         await _categoryService.Delete(id);
     }

@@ -1,4 +1,5 @@
 ﻿using Contracts.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models.RequestPayloads;
 using Models.ResponsePayloads;
@@ -33,8 +34,20 @@ public class NoteController : ControllerBase
     /// </returns>
     [HttpGet]
     [MapToApiVersion("1.0")]
-    [MapToApiVersion("2.0")]
     public async Task<IEnumerable<NoteResponsePayload>> GetAllApi1()
+    {
+        return await _noteService.GetAll();
+    }
+
+    /// <summary>
+    /// Gets all notes.
+    /// </summary>
+    /// <returns>
+    /// <see cref="Task{IEnumerable{NoteResponsePayload}}"/>.
+    /// </returns>
+    [HttpGet, Authorize]
+    [MapToApiVersion("2.0")]
+    public async Task<IEnumerable<NoteResponsePayload>> GetAllApi2()
     {
         return await _noteService.GetAll();
     }
@@ -46,8 +59,19 @@ public class NoteController : ControllerBase
     /// <returns><see cref="Task{NoteResponsePayload}"/>.</returns>
     [HttpGet("{id}")]
     [MapToApiVersion("1.0")]
-    [MapToApiVersion("2.0")]
     public async Task<NoteResponsePayload> GetByIdApi1([FromRoute] int id)
+    {
+        return await _noteService.GetById(id);
+    }
+
+    /// <summary>
+    /// Gets note by id.
+    /// </summary>
+    /// <param name="id">Id.</param>
+    /// <returns><see cref="Task{NoteResponsePayload}"/>.</returns>
+    [HttpGet("{id}"), Authorize]
+    [MapToApiVersion("2.0")]
+    public async Task<NoteResponsePayload> GetByIdApi2([FromRoute] int id)
     {
         return await _noteService.GetById(id);
     }
@@ -61,8 +85,22 @@ public class NoteController : ControllerBase
     /// <returns><see cref="Task"/>.</returns>
     [HttpPost]
     [MapToApiVersion("1.0")]
-    [MapToApiVersion("2.0")]
     public async Task AddApi1(
+        [FromBody] NoteRequestPayload noteRequestPayload)
+    {
+        await _noteService.Add(noteRequestPayload);
+    }
+
+    /// <summary>
+    /// Adds a new note.
+    /// </summary>
+    /// <param name="noteRequestPayload">
+    /// <see cref="NoteRequestPayload"/>.
+    /// </param>
+    /// <returns><see cref="Task"/>.</returns>
+    [HttpPost, Authorize]
+    [MapToApiVersion("2.0")]
+    public async Task AddApi2(
         [FromBody] NoteRequestPayload noteRequestPayload)
     {
         await _noteService.Add(noteRequestPayload);
@@ -76,10 +114,26 @@ public class NoteController : ControllerBase
     /// <see cref="NoteRequestPayload"/>.
     /// </param>
     /// <returns><see cref="Task"/>.</returns>
-    [HttpPut("{id}")]
+    [HttpPut("{id}"), Authorize]
     [MapToApiVersion("1.0")]
-    [MapToApiVersion("2.0")]
     public async Task UpdateApi1(
+        [FromRoute] int id,
+        [FromBody] NoteRequestPayload noteRequestPayload)
+    {
+        await _noteService.Update(id, noteRequestPayload);
+    }
+
+    /// <summary>
+    /// Updates a note.
+    /// </summary>
+    /// <param name="id">Id.</param>
+    /// <param name="noteRequestPayload">
+    /// <see cref="NoteRequestPayload"/>.
+    /// </param>
+    /// <returns><see cref="Task"/>.</returns>
+    [HttpPut("{id}")]
+    [MapToApiVersion("2.0")]
+    public async Task UpdateApi2(
         [FromRoute] int id,
         [FromBody] NoteRequestPayload noteRequestPayload)
     {
@@ -93,8 +147,19 @@ public class NoteController : ControllerBase
     /// <returns><see cref="Task"/>.</returns>
     [HttpDelete("{id}")]
     [MapToApiVersion("1.0")]
-    [MapToApiVersion("2.0")]
     public async Task DeleteApi1([FromRoute] int id)
+    {
+        await _noteService.Delete(id);
+    }
+
+    /// <summary>
+    /// Deletes a note.
+    /// </summary>
+    /// <param name="id">Id.</param>
+    /// <returns><see cref="Task"/>.</returns>
+    [HttpDelete("{id}"), Authorize]
+    [MapToApiVersion("2.0")]
+    public async Task DeleteApi2([FromRoute] int id)
     {
         await _noteService.Delete(id);
     }
