@@ -9,9 +9,13 @@
   <ItemGroup>
     <None Remove="Entities\" />
     <None Remove="ResponsePayloads\" />
+    <None Remove="Exceptions\" />
+    <None Remove="RequestPayloads\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Entities\" />
     <Folder Include="ResponsePayloads\" />
+    <Folder Include="Exceptions\" />
+    <Folder Include="RequestPayloads\" />
   </ItemGroup>
 </Project>

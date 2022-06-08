@@ -3,7 +3,7 @@
 /// <summary>
 /// Status class that describes API version.
 /// </summary>
-public class StatusPayload
+public class StatusResponsePayload
 {
     /// <summary>
     /// Gets or sets version.

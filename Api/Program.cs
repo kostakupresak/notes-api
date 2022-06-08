@@ -1,4 +1,8 @@
 ﻿using Api.Swagger;
+using BusinessLogic;
+using Contracts.Repositories;
+using Contracts.Services;
+using DataAccess;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 
@@ -20,6 +24,12 @@ builder.Services.AddSwaggerGen();
 builder.Services.ConfigureOptions<ConfigureSwaggerOptions>();
 
 builder.Services.AddControllers();
+
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<INoteRepository, NoteRepository>();
+
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<INoteService, NoteService>();
 
 var app = builder.Build();
 var provider = app.Services

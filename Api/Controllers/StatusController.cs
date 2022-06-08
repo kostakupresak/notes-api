@@ -18,12 +18,12 @@ public class StatusController : ControllerBase
     /// <summary>
     /// Returns status of API v1.0.
     /// </summary>
-    /// <returns><see cref="StatusPayload"/></returns>
+    /// <returns><see cref="StatusResponsePayload"/></returns>
     [HttpGet]
     [MapToApiVersion("1.0")]
-    public StatusPayload GetApi1()
+    public StatusResponsePayload GetApi1()
     {
-        return new StatusPayload
+        return new StatusResponsePayload
         {
             Version = 1,
             Description = api1Description
@@ -33,12 +33,12 @@ public class StatusController : ControllerBase
     /// <summary>
     /// Returns statu of API v2.0.
     /// </summary>
-    /// <returns><see cref="StatusPayload"/></returns>
+    /// <returns><see cref="StatusResponsePayload"/></returns>
     [HttpGet]
     [MapToApiVersion("2.0")]
-    public StatusPayload GetApi2()
+    public StatusResponsePayload GetApi2()
     {
-        return new StatusPayload
+        return new StatusResponsePayload
         {
             Version = 2,
             Description = api2Description
