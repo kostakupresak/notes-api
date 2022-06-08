@@ -3,7 +3,7 @@
 /// <summary>
 /// Not found exception.
 /// </summary>
-public class NotFoundException : Exception
+public class NotFoundException : CustomException
 {
     public const int StatusCode = 404;
 
@@ -12,5 +12,10 @@ public class NotFoundException : Exception
     /// </summary>
     public NotFoundException() : base("Object isn't found.")
     {
+    }
+
+    public override int GetStatusCode()
+    {
+        return StatusCode;
     }
 }

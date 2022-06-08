@@ -3,7 +3,7 @@
 /// <summary>
 /// Could not save exception.
 /// </summary>
-public class CouldNotSaveException : Exception
+public class CouldNotSaveException : CustomException
 {
     public const int StatusCode = 400;
 
@@ -12,5 +12,10 @@ public class CouldNotSaveException : Exception
     /// </summary>
     public CouldNotSaveException() : base("Object couldn't be saved.")
     {
+    }
+
+    public override int GetStatusCode()
+    {
+        return StatusCode;
     }
 }

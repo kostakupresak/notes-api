@@ -3,7 +3,7 @@
 /// <summary>
 /// Unauthenticated exception.
 /// </summary>
-public class UnauthenticatedException : Exception
+public class UnauthenticatedException : CustomException
 {
     public const int StatusCode = 401;
 
@@ -13,5 +13,10 @@ public class UnauthenticatedException : Exception
     public UnauthenticatedException()
         : base("User's credentials are incorrect.")
     {
+    }
+
+    public override int GetStatusCode()
+    {
+        return StatusCode;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using Api.Middlewares;
 using Api.Swagger;
 using BusinessLogic;
 using Contracts.Repositories;
@@ -100,6 +101,8 @@ app.UseSwaggerUI(options =>
             apiVersionDescription.GroupName.ToUpperInvariant());
     }
 });
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseHttpsRedirection();
 
