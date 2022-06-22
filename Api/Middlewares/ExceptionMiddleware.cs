@@ -45,10 +45,12 @@ public class ExceptionMiddleware
         context.Response.ContentType = "application/json";
         context.Response.StatusCode = 500;
 
-        await context.Response.WriteAsync(new ErrorResponsePayload
+        var errorResponsePayload = new ErrorResponsePayload
         {
             Message = "Something went wrong."
-        }.ToString());
+        };
+        
+        await context.Response.WriteAsync(errorResponsePayload.ToString());
     }
 
     private static async Task HandleExceptionAsync(
@@ -57,10 +59,12 @@ public class ExceptionMiddleware
     {
         context.Response.ContentType = "application/json";
         context.Response.StatusCode = customException.GetStatusCode();
-
-        await context.Response.WriteAsync(new ErrorResponsePayload
+        
+        var errorResponsePayload = new ErrorResponsePayload
         {
             Message = customException.Message
-        }.ToString());
+        };
+        
+        await context.Response.WriteAsync(errorResponsePayload.ToString());
     }
 }

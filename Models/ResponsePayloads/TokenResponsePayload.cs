@@ -8,5 +8,5 @@ public class TokenResponsePayload
     /// <summary>
     /// Gets or sets token.
     /// </summary>
-    public string Token { get; set; } = default!;
+    public string Token { get; init; } = default!;
 }

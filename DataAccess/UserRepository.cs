@@ -6,58 +6,55 @@ using Npgsql;
 
 namespace DataAccess;
 
-public class UserRepository : IUserRepository
+public class UserRepository : Repository<User>, IUserRepository
 {
-    private const string validateQuery = "SELECT password FROM \"user\" " +
+    private const string ValidateQuery = "SELECT username, password FROM \"user\" " +
         "WHERE username = @Username AND deleted = FALSE;";
-    private const string insertQuery = "INSERT INTO \"user\" " +
+    private const string InsertQuery = "INSERT INTO \"user\" " +
         "(username, \"password\") VALUES (@Username, @Password);";
-
-    private readonly string _connectionString;
 
     /// <summary>
     /// Constructor for <see cref="UserRepository"/>.
     /// </summary>
-    public UserRepository(IConfiguration configuration)
+    public UserRepository(IConfiguration configuration) : base(configuration)
     {
-        _connectionString = configuration.GetValue<string>("ConnectionString");
     }
 
     /// <inheritdoc cref="IUserRepository"/>
     public async Task<string> Validate(User user)
     {
-        await using var connection = new NpgsqlConnection(_connectionString);
-        await connection.OpenAsync();
-
-        await using var command = new NpgsqlCommand(validateQuery, connection);
-        command.Parameters.Add(new NpgsqlParameter("Username", user.Username));
-        command.Parameters.Add(new NpgsqlParameter("Password", user.Password));
-
-        await using var reader = await command.ExecuteReaderAsync();
-
-        if (await reader.ReadAsync())
+        var sqlParameters = new []
         {
-            return reader.GetString(0);
-        }
-
-        throw new UnauthenticatedException();
+            new NpgsqlParameter("Username", user.Username),
+            new NpgsqlParameter("Password", user.Password)
+        };
+        
+        User foundUser = await Filter<UnauthenticatedException>(ValidateQuery, sqlParameters);
+        
+        return foundUser.Password;
     }
 
     /// <inheritdoc cref="IUserRepository"/>
     public async Task Add(User user)
     {
-        await using var connection = new NpgsqlConnection(_connectionString);
-        await connection.OpenAsync();
-
-        await using var command = new NpgsqlCommand(insertQuery, connection);
-        command.Parameters.Add(new NpgsqlParameter("Username", user.Username));
-        command.Parameters.Add(new NpgsqlParameter("Password", user.Password));
-
-        var isAdded = await command.ExecuteNonQueryAsync() == 1;
-
-        if (!isAdded)
+        var sqlParameters = new []
         {
-            throw new CouldNotSaveException();
-        }
+            new NpgsqlParameter("Username", user.Username),
+            new NpgsqlParameter("Password", user.Password)
+        };
+
+        await base.Add(InsertQuery, sqlParameters);
+    }
+
+    protected override User MapToEntity(NpgsqlDataReader dataReader)
+    {
+        var username = dataReader.GetString(0);
+        var password = dataReader.GetString(1);
+
+        return new User
+        {
+            Username = username,
+            Password = password
+        };
     }
 }

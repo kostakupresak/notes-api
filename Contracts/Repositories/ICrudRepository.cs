@@ -9,20 +9,20 @@ public interface ICrudRepository<TEntity>
     /// <summary>
     /// Gets all entities.
     /// </summary>
-    /// <returns><see cref="Task{IEnumerable{TEntity}}"/>.</returns>
+    /// <returns><see cref="IEnumerable{TEntity}"/>.</returns>
     Task<IEnumerable<TEntity>> GetAll();
 
     /// <summary>
     /// Gets entity by id.
     /// </summary>
     /// <param name="id">Id.</param>
-    /// <returns><see cref="Task{TEntity}"/>.</returns>
+    /// <returns><see cref="TEntity"/>.</returns>
     Task<TEntity> GetById(int id);
 
     /// <summary>
     /// Adds a new entity.
     /// </summary>
-    /// <param name="title">Title.</param>
+    /// <param name="entity"><see cref="TEntity"/>.</param>
     /// <returns><see cref="Task"/>.</returns>
     Task Add(TEntity entity);
 

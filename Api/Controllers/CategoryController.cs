@@ -15,7 +15,7 @@ namespace Api.Controllers;
 [ApiVersion("2.0")]
 public class CategoryController : ControllerBase
 {
-    public readonly ICategoryService _categoryService;
+    private readonly ICategoryService _categoryService;
 
     /// <summary>
     /// Constructor for <see cref="CategoryController"/>.
@@ -30,7 +30,7 @@ public class CategoryController : ControllerBase
     /// Gets all categories.
     /// </summary>
     /// <returns>
-    /// <see cref="Task{IEnumerable{CategoryResponsePayload}}"/>.
+    /// <see cref="IEnumerable{CategoryResponsePayload}"/>.
     /// </returns>
     [HttpGet]
     [MapToApiVersion("1.0")]
@@ -43,7 +43,7 @@ public class CategoryController : ControllerBase
     /// Gets all categories.
     /// </summary>
     /// <returns>
-    /// <see cref="Task{IEnumerable{CategoryResponsePayload}}"/>.
+    /// <see cref="IEnumerable{CategoryResponsePayload}"/>.
     /// </returns>
     [HttpGet, Authorize]
     [MapToApiVersion("2.0")]
@@ -56,7 +56,7 @@ public class CategoryController : ControllerBase
     /// Gets category by id.
     /// </summary>
     /// <param name="id">Id.</param>
-    /// <returns><see cref="Task{CategoryResponsePayload}"/>.</returns>
+    /// <returns><see cref="CategoryResponsePayload"/>.</returns>
     [HttpGet("{id}")]
     [MapToApiVersion("1.0")]
     public async Task<CategoryResponsePayload> GetByIdApi1([FromRoute] int id)
@@ -68,7 +68,7 @@ public class CategoryController : ControllerBase
     /// Gets category by id.
     /// </summary>
     /// <param name="id">Id.</param>
-    /// <returns><see cref="Task{CategoryResponsePayload}"/>.</returns>
+    /// <returns><see cref="CategoryResponsePayload"/>.</returns>
     [HttpGet("{id}"), Authorize]
     [MapToApiVersion("2.0")]
     public async Task<CategoryResponsePayload> GetByIdApi2([FromRoute] int id)

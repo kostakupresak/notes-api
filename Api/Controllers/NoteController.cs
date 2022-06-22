@@ -15,7 +15,7 @@ namespace Api.Controllers;
 [ApiVersion("2.0")]
 public class NoteController : ControllerBase
 {
-    public readonly INoteService _noteService;
+    private readonly INoteService _noteService;
 
     /// <summary>
     /// Constructor for <see cref="NoteController"/>.
@@ -30,7 +30,7 @@ public class NoteController : ControllerBase
     /// Gets all notes.
     /// </summary>
     /// <returns>
-    /// <see cref="Task{IEnumerable{NoteResponsePayload}}"/>.
+    /// <see cref="IEnumerable{NoteResponsePayload}"/>.
     /// </returns>
     [HttpGet]
     [MapToApiVersion("1.0")]
@@ -43,7 +43,7 @@ public class NoteController : ControllerBase
     /// Gets all notes.
     /// </summary>
     /// <returns>
-    /// <see cref="Task{IEnumerable{NoteResponsePayload}}"/>.
+    /// <see cref="IEnumerable{NoteResponsePayload}"/>.
     /// </returns>
     [HttpGet, Authorize]
     [MapToApiVersion("2.0")]
@@ -56,7 +56,7 @@ public class NoteController : ControllerBase
     /// Gets note by id.
     /// </summary>
     /// <param name="id">Id.</param>
-    /// <returns><see cref="Task{NoteResponsePayload}"/>.</returns>
+    /// <returns><see cref="NoteResponsePayload"/>.</returns>
     [HttpGet("{id}")]
     [MapToApiVersion("1.0")]
     public async Task<NoteResponsePayload> GetByIdApi1([FromRoute] int id)
@@ -68,7 +68,7 @@ public class NoteController : ControllerBase
     /// Gets note by id.
     /// </summary>
     /// <param name="id">Id.</param>
-    /// <returns><see cref="Task{NoteResponsePayload}"/>.</returns>
+    /// <returns><see cref="NoteResponsePayload"/>.</returns>
     [HttpGet("{id}"), Authorize]
     [MapToApiVersion("2.0")]
     public async Task<NoteResponsePayload> GetByIdApi2([FromRoute] int id)
@@ -114,7 +114,7 @@ public class NoteController : ControllerBase
     /// <see cref="NoteRequestPayload"/>.
     /// </param>
     /// <returns><see cref="Task"/>.</returns>
-    [HttpPut("{id}"), Authorize]
+    [HttpPut("{id}")]
     [MapToApiVersion("1.0")]
     public async Task UpdateApi1(
         [FromRoute] int id,
@@ -132,7 +132,7 @@ public class NoteController : ControllerBase
     /// </param>
     /// <returns><see cref="Task"/>.</returns>
     [HttpPut("{id}")]
-    [MapToApiVersion("2.0")]
+    [MapToApiVersion("2.0"), Authorize]
     public async Task UpdateApi2(
         [FromRoute] int id,
         [FromBody] NoteRequestPayload noteRequestPayload)

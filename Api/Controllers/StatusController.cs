@@ -12,8 +12,8 @@ namespace Api.Controllers;
 [ApiVersion("2.0")]
 public class StatusController : ControllerBase
 {
-    private const string api1Description = "API v1.0 without auth.";
-    private const string api2Description = "API v2.0 with auth.";
+    private const string Api1Description = "API v1.0 without auth.";
+    private const string Api2Description = "API v2.0 with auth.";
 
     /// <summary>
     /// Returns status of API v1.0.
@@ -26,12 +26,12 @@ public class StatusController : ControllerBase
         return new StatusResponsePayload
         {
             Version = 1,
-            Description = api1Description
+            Description = Api1Description
         };
     }
 
     /// <summary>
-    /// Returns statu of API v2.0.
+    /// Returns status of API v2.0.
     /// </summary>
     /// <returns><see cref="StatusResponsePayload"/></returns>
     [HttpGet]
@@ -41,7 +41,7 @@ public class StatusController : ControllerBase
         return new StatusResponsePayload
         {
             Version = 2,
-            Description = api2Description
+            Description = Api2Description
         };
     }
 }

@@ -36,7 +36,7 @@ builder.Services.AddSwaggerGen(setup => {
         Name = "JWT Authentication",
         In = ParameterLocation.Header,
         Type = SecuritySchemeType.Http,
-        Description = "Put **_ONLY_** your JWT Bearer token on textbox below!",
+        Description = "Put **_ONLY_** your JWT Bearer token on text box below!",
 
         Reference = new OpenApiReference
         {
@@ -58,9 +58,9 @@ builder.Services.ConfigureOptions<ConfigureSwaggerOptions>();
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy(name: corsPolicy, builder =>
+    options.AddPolicy(name: corsPolicy, configurePolicy =>
     {
-        builder.AllowAnyOrigin()
+        configurePolicy.AllowAnyOrigin()
             .AllowAnyHeader()
             .AllowAnyMethod();
     });
@@ -106,11 +106,14 @@ var provider = app.Services
 app.UseSwagger();
 app.UseSwaggerUI(options =>
 {
-    foreach (var apiVersionDescription in provider.ApiVersionDescriptions)
+    var groupNames =
+        provider.ApiVersionDescriptions.Select(apiVersionDescription => apiVersionDescription.GroupName);
+    
+    foreach (var groupName in groupNames)
     {
         options.SwaggerEndpoint(
-            $"/swagger/{apiVersionDescription.GroupName}/swagger.json",
-            apiVersionDescription.GroupName.ToUpperInvariant());
+            $"/swagger/{groupName}/swagger.json",
+            groupName.ToUpperInvariant());
     }
 });
 

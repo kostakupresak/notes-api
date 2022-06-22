@@ -11,7 +11,7 @@ namespace Api.Swagger;
 internal class ConfigureSwaggerOptions
     : IConfigureNamedOptions<SwaggerGenOptions>
 {
-    private readonly IApiVersionDescriptionProvider provider;
+    private readonly IApiVersionDescriptionProvider _provider;
 
     /// <summary>
     /// Constructor for <see cref="ConfigureSwaggerOptions"/>.
@@ -21,7 +21,7 @@ internal class ConfigureSwaggerOptions
     /// </param>
     public ConfigureSwaggerOptions(IApiVersionDescriptionProvider provider)
     {
-        this.provider = provider;
+        _provider = provider;
     }
 
     /// <summary>
@@ -29,7 +29,7 @@ internal class ConfigureSwaggerOptions
     /// </summary>
     public void Configure(SwaggerGenOptions options)
     {
-        foreach (var description in provider.ApiVersionDescriptions)
+        foreach (var description in _provider.ApiVersionDescriptions)
         {
             options.SwaggerDoc(
                 description.GroupName,

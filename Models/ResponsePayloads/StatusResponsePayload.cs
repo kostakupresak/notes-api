@@ -8,10 +8,10 @@ public class StatusResponsePayload
     /// <summary>
     /// Gets or sets version.
     /// </summary>
-    public int Version { get; set; }
+    public int Version { get; init; }
 
     /// <summary>
     /// Gets or sets description.
     /// </summary>
-    public string Description { get; set; } = default!;
+    public string Description { get; init; } = default!;
 }

@@ -11,7 +11,7 @@ public interface IUserRepository
     /// Validates user in order to log it in.
     /// </summary>
     /// <param name="user"><see cref="User"/>.</param>
-    /// <returns><see cref="Task{string}"/> as hashed password.</returns>
+    /// <returns><see cref="string"/> as hashed password.</returns>
     Task<string> Validate(User user);
 
     /// <summary>

@@ -14,7 +14,7 @@ public interface IUserService
     /// <param name="userRequestPayload">
     /// <see cref="UserRequestPayload"/>.
     /// </param>
-    /// <returns><see cref="Task{TokenResponsePayload}"/>.</returns>
+    /// <returns><see cref="TokenResponsePayload"/>.</returns>
     Task<TokenResponsePayload> Validate(UserRequestPayload userRequestPayload);
 
     /// <summary>

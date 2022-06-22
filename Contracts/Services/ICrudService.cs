@@ -5,13 +5,13 @@
 /// </summary>
 /// <typeparam name="TRequestPayload">Request payload.</typeparam>
 /// <typeparam name="TResponsePayload">Response payload.</typeparam>
-public interface ICrudService<TRequestPayload, TResponsePayload>
+public interface ICrudService<in TRequestPayload, TResponsePayload>
 {
     /// <summary>
     /// Gets all entities.
     /// </summary>
     /// <returns>
-    /// <see cref="Task{IEnumerable{TResponsePayload}}"/>.
+    /// <see cref="IEnumerable{TResponsePayload}"/>.
     /// </returns>
     Task<IEnumerable<TResponsePayload>> GetAll();
 
@@ -19,7 +19,7 @@ public interface ICrudService<TRequestPayload, TResponsePayload>
     /// Gets entity by id.
     /// </summary>
     /// <param name="id">Id.</param>
-    /// <returns><see cref="Task{TResponsePayload}"/>.</returns>
+    /// <returns><see cref="TResponsePayload"/>.</returns>
     Task<TResponsePayload> GetById(int id);
 
     /// <summary>

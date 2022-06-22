@@ -10,7 +10,7 @@ public class ErrorResponsePayload
     /// <summary>
     /// Gets or sets message.
     /// </summary>
-    public string Message { get; set; } = default!;
+    public string Message { get; init; } = default!;
 
     /// <summary>
     /// Converts to JSON string.
